@@ -86,14 +86,20 @@ public:
 	bool isUpstairCallButtonPressed() { return inputState & 16; }
 	bool isDownstairCallButtonPressed() { return inputState & 32; }
 	bool isUpstairRequestButtonPressed() { return inputState & 64; }
-	bool isDownstairRequestButtonPressed() { return inputState &128; }
+	bool isDownstairRequestButtonPressed() { return inputState & 128; }
 
     void tick() {
         snprintf(sendBuffer, sizeof(sendBuffer), "%d", outputState);
         client.send(sendBuffer, strlen(sendBuffer));
 
+        for (int i = 0; i < 8; i++)
+        {
+            recvBuffer[i] = 0;
+        }
+
         client.recv(recvBuffer, sizeof(recvBuffer));
-        inputState = (uint32_t)(recvBuffer[0] - '0');  // ToDo
+        sscanf(recvBuffer, "%d", &inputState);
+        // inputState = (uint32_t)(recvBuffer[0] - '0');  // ToDo
     }
 };
 
@@ -134,7 +140,7 @@ bool IO_isLiftOnUpstair()
 	return io.isLiftOnUpstair();
 }
 
-bool IO_isListOnDownstair()
+bool IO_isLiftOnDownstair()
 {
 	return io.isLiftOnDownstair();
 }
