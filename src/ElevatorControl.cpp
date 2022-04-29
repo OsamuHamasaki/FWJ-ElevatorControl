@@ -6,8 +6,10 @@
 #include <unistd.h>
 #include <cstring>
 #include "IO.hpp"
+#include "ElevatorController.hpp"
 
 static int tickInterval_us = 10000;
+static ElevatorController controller;
 
 bool initialize()
 {
@@ -24,6 +26,7 @@ void finalize()
 void tick()
 {
     IO_tick();
+    controller.tick();
 }
 
 int main()
