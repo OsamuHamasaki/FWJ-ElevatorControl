@@ -19,12 +19,13 @@ class Lift
 {
 private:
     LiftEventListener* listener;
-    int state;
-
-    static const int onDownstair = 0;
-    static const int onUpstair = 1;
-    static const int goingDown = 2;
-    static const int goingUp = 3;
+    enum
+    {
+        onDownstair,
+        onUpstair,
+        goingDown,
+        goingUp
+    } state;
 
 public:
     Lift(LiftEventListener* listener) : listener(listener), state(onDownstair) {}

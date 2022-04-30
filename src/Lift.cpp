@@ -18,6 +18,8 @@ void Lift::goUp()
     case onUpstair:
         listener->notifyLiftOnUpstair();
         break;
+    default:
+        break;
     }
 }
 
@@ -33,6 +35,8 @@ void Lift::goDown()
         break;
     case onDownstair:
         listener->notifyLiftOnDownstair();
+        break;
+    default:
         break;
     }
 }
@@ -56,6 +60,8 @@ void Lift::tick()
             listener->notifyLiftOnDownstair();
             state = onDownstair;
         }
+        break;
+    default:
         break;
     }
 }

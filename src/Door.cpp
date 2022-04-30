@@ -13,10 +13,12 @@ void Door::open()
         IO_doorMotorOff();
     case closed:
         IO_doorMotorForwardOn();
-        state = openning;
+        state = opening;
         break;
     case opened:
         count = waitClosingCount;
+        break;
+    default:
         break;
     }
 }
@@ -33,7 +35,7 @@ void Door::tick()
             state = closed;
         }
         break;
-    case openning:
+    case opening:
         if (IO_isDoorOpen())
         {
             IO_doorMotorOff();
@@ -49,6 +51,9 @@ void Door::tick()
             IO_doorMotorReverseOn();
             state = closing;
         }
+        break;
+    default:
+        break;
     }
 }
 

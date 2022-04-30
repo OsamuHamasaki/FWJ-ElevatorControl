@@ -74,10 +74,6 @@ void Cage::requested(Request* request)
     }
 }
 
-void Cage::notifyDoorOpened()
-{
-}
-
 void Cage::notifyDoorClosed()
 {
     currentRequest = nextRequest;

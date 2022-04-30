@@ -19,13 +19,14 @@ class Door
 {
 private:
     DoorEventListener* listener;
-    int state;
+    enum
+    {
+        closed,
+        opened,
+        closing,
+        opening
+    } state;
     int count;
-
-    static const int closed = 0;
-    static const int opened = 1;
-    static const int closing = 2;
-    static const int openning = 3;
 
     static const int waitClosingCount = 300;
 

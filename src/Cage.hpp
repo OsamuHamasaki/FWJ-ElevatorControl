@@ -94,7 +94,6 @@ private:
     Request *nextRequest;
 
     void requested(Request* request);
-    void moveLift();
 
 public:
     Cage()
@@ -111,7 +110,6 @@ public:
     void notifyDownstairRequestButtonPressed();
     
     void notifyDoorClosed();
-    void notifyDoorOpened();
 
     void notifyLiftOnUpstair();
     void notifyLiftOnDownstair();
