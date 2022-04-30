@@ -23,10 +23,10 @@ public:
         : upstairCallButton(&cage), upstairRequestButton(&cage), downstairCallButton(&cage), downstairRequestButton(&cage),
           cage()
         { 
-            cage.addRequester(&upstairCallButton);
-            cage.addRequester(&upstairRequestButton);
-            cage.addRequester(&downstairCallButton);
-            cage.addRequester(&downstairRequestButton);
+            cage.addEventListener(&upstairCallButton);
+            cage.addEventListener(&upstairRequestButton);
+            cage.addEventListener(&downstairCallButton);
+            cage.addEventListener(&downstairRequestButton);
         }
     ~ElevatorController() {}
 

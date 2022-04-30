@@ -8,30 +8,75 @@
 #include "Door.hpp"
 #include "Lift.hpp"
 
-class CageRequester
+class CageEventListener
 {
 public:
-    CageRequester() {}
-    virtual ~CageRequester() {}
+    CageEventListener() {}
+    virtual ~CageEventListener() {}
 
-    virtual void notifyOnUpstair() = 0;
-    virtual void notifyOnDownstair() = 0;
+    virtual void notifyOnUpstair() {};
+    virtual void notifyOnDownstair() {};
 };
 
-class CageRequesterList
+class CageEventNotifier
 {
 private:
-    int numOfRequester;
-    CageRequester* requesters[4];
+    int numOfListeners;
+    CageEventListener* listeners[4];
     
 public:
-    CageRequesterList();
-    ~CageRequesterList() {}
+    CageEventNotifier();
+    ~CageEventNotifier() {}
 
-    void addRequester(CageRequester* requester);
+    void addEventListener(CageEventListener* listener);
 
     void notifyOnUpstair();
     void notifyOnDownstair();
+};
+
+class Request
+{
+public:
+    Request() {}
+    virtual ~Request() {}
+
+    virtual void exec(Lift* lift) = 0;
+    virtual bool isNoRequest() { return false; }
+};
+
+class NoRequest : public Request
+{
+public:
+    NoRequest() {}
+    virtual ~NoRequest() {}
+
+    void exec(Lift* lift) {}
+    bool isNoRequest() { return true; }
+
+};
+
+class UpstairRequest : public Request
+{
+private:
+    Lift* lift;
+
+public:
+    UpstairRequest(Lift* lift) : lift(lift) {}
+    virtual ~UpstairRequest() {}
+
+    void exec(Lift* lift) { lift->goUp(); }
+};
+
+class DownstairRequest : public Request
+{
+private:
+    Lift* lift;
+
+public:
+    DownstairRequest(Lift* lift) : lift(lift) {}
+    virtual ~DownstairRequest() {}
+
+    void exec(Lift* lift) { lift->goDown(); }
 };
 
 class Cage : public DoorEventListener, public LiftEventListener
@@ -39,52 +84,7 @@ class Cage : public DoorEventListener, public LiftEventListener
 private:
     Door door;
     Lift lift;
-    CageRequesterList requesters;
-
-    class Request
-    {
-    public:
-        Request() {}
-        virtual ~Request() {}
-
-        virtual void exec(Lift* lift) = 0;
-        virtual bool isNoRequest() { return false; }
-    };
-
-    class NoRequest : public Request
-    {
-    public:
-        NoRequest() {}
-        virtual ~NoRequest() {}
-
-        void exec(Lift* lift) {}
-        bool isNoRequest() { return true; }
-
-    };
-
-    class UpstairRequest : public Request
-    {
-    private:
-        Lift* lift;
-
-    public:
-        UpstairRequest(Lift* lift) : lift(lift) {}
-        virtual ~UpstairRequest() {}
-
-        void exec(Lift* lift) { lift->goUp(); }
-    };
-
-    class DownstairRequest : public Request
-    {
-    private:
-        Lift* lift;
-
-    public:
-        DownstairRequest(Lift* lift) : lift(lift) {}
-        virtual ~DownstairRequest() {}
-
-        void exec(Lift* lift) { lift->goDown(); }
-    };
+    CageEventNotifier notifier;
 
     NoRequest noRequest;
     UpstairRequest upstairRequest;
@@ -98,12 +98,12 @@ private:
 
 public:
     Cage()
-        : door(this), lift(this), requesters(),
+        : door(this), lift(this), notifier(),
           noRequest(), upstairRequest(&lift), downstairRequest(&lift),
           currentRequest(&noRequest), nextRequest(&noRequest) {}
     ~Cage() {}
 
-    void addRequester(CageRequester* requester);
+    void addEventListener(CageEventListener* listener);
 
     void notifyUpstairCallButtonPressed();
     void notifyUpstairRequestButtonPressed();

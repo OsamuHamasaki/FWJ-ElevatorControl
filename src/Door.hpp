@@ -11,8 +11,8 @@ public:
     DoorEventListener() {}
     virtual ~DoorEventListener() {}
 
-    virtual void notifyDoorOpened() = 0;
-    virtual void notifyDoorClosed() = 0;
+    virtual void notifyDoorOpened() {};
+    virtual void notifyDoorClosed() {};
 };
 
 class Door
@@ -27,7 +27,7 @@ private:
     static const int closing = 2;
     static const int openning = 3;
 
-    static const int waitClosingCount = 400;
+    static const int waitClosingCount = 300;
 
 public:
     Door(DoorEventListener* listener) : listener(listener), state(closed), count(0) {}

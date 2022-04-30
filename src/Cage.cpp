@@ -5,39 +5,39 @@
 #include "Cage.hpp"
 #include "IO.hpp"
 
-CageRequesterList::CageRequesterList() : numOfRequester(0)
+CageEventNotifier::CageEventNotifier() : numOfListeners(0)
 {
-    for (int i = 0; i < sizeof(requesters)/sizeof(CageRequester*); i++)
+    for (int i = 0; i < sizeof(listeners)/sizeof(CageEventListener*); i++)
     {
-        requesters[i] = 0;
+        listeners[i] = 0;
     }
 }
 
-void CageRequesterList::addRequester(CageRequester* requester)
+void CageEventNotifier::addEventListener(CageEventListener* listener)
 {
-    requesters[numOfRequester] = requester;
-    numOfRequester++;
+    listeners[numOfListeners] = listener;
+    numOfListeners++;
 }
 
-void CageRequesterList::notifyOnUpstair()
+void CageEventNotifier::notifyOnUpstair()
 {
-    for (int i = 0; i < numOfRequester; i++)
+    for (int i = 0; i < numOfListeners; i++)
     {
-        requesters[i]->notifyOnUpstair();
+        listeners[i]->notifyOnUpstair();
     }
 }
 
-void CageRequesterList::notifyOnDownstair()
+void CageEventNotifier::notifyOnDownstair()
 {
-    for (int i = 0; i < numOfRequester; i++)
+    for (int i = 0; i < numOfListeners; i++)
     {
-        requesters[i]->notifyOnDownstair();
+        listeners[i]->notifyOnDownstair();
     }
 }
 
-void Cage::addRequester(CageRequester* requester)
+void Cage::addEventListener(CageEventListener* listener)
 {
-    requesters.addRequester(requester);
+    notifier.addEventListener(listener);
 }
 
 void Cage::notifyUpstairCallButtonPressed()
@@ -88,13 +88,13 @@ void Cage::notifyDoorClosed()
 
 void Cage::notifyLiftOnUpstair()
 {
-    requesters.notifyOnUpstair();
+    notifier.notifyOnUpstair();
     door.open();
 }
 
 void Cage::notifyLiftOnDownstair()
 {
-    requesters.notifyOnDownstair();
+    notifier.notifyOnDownstair();
     door.open();
 }
 

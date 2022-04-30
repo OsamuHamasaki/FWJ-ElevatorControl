@@ -11,8 +11,8 @@ public:
     LiftEventListener() {}
     virtual ~LiftEventListener() {}
 
-    virtual void notifyLiftOnUpstair() = 0;
-    virtual void notifyLiftOnDownstair() = 0;
+    virtual void notifyLiftOnUpstair() {};
+    virtual void notifyLiftOnDownstair() {};
 };
 
 class Lift

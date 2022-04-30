@@ -9,7 +9,7 @@
 #include "Cage.hpp"
 #include "IO.hpp"
 
-class UpstairCallButton : public Button, public CageRequester
+class UpstairCallButton : public Button, public CageEventListener
 {
 private:
     Cage* cage;
@@ -22,10 +22,9 @@ public:
     virtual ~UpstairCallButton() {}
 
     void notifyOnUpstair() { IO_upstairCallButtonLampOff(); }
-    void notifyOnDownstair() {}
 };
 
-class UpstairRequestButton : public Button, public CageRequester
+class UpstairRequestButton : public Button, public CageEventListener
 {
 private:
     Cage* cage;
@@ -38,10 +37,9 @@ public:
     virtual ~UpstairRequestButton() {}
 
     void notifyOnUpstair() { IO_upstairRequestButtonLampOff(); }
-    void notifyOnDownstair() {}
 };
 
-class DownstairCallButton : public Button, public CageRequester
+class DownstairCallButton : public Button, public CageEventListener
 {
 private:
     Cage* cage;
@@ -53,11 +51,10 @@ public:
     DownstairCallButton(Cage* cage) : cage(cage) {}
     virtual ~DownstairCallButton() {}
 
-    void notifyOnUpstair() {}
     void notifyOnDownstair() { IO_downstairCallButtonLampOff(); }
 };
 
-class DownstairRequestButton : public Button, public CageRequester
+class DownstairRequestButton : public Button, public CageEventListener
 {
 private:
     Cage* cage;
@@ -69,7 +66,6 @@ public:
     DownstairRequestButton(Cage* cage) : cage(cage) {}
     virtual ~DownstairRequestButton() {}
 
-    void notifyOnUpstair() {}
     void notifyOnDownstair() { IO_downstairRequestButtonLampOff(); }
 };
 
