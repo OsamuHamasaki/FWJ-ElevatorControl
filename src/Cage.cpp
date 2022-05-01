@@ -66,7 +66,7 @@ void Cage::requested(Request* request)
         || currentRequest == request)
     {
         currentRequest = request;
-        currentRequest->exec(&lift);
+        currentRequest->exec();
     }
     else
     {
@@ -79,7 +79,7 @@ void Cage::notifyDoorClosed()
     currentRequest = nextRequest;
     nextRequest = &noRequest;
 
-    currentRequest->exec(&lift);
+    currentRequest->exec();
 }
 
 void Cage::notifyLiftOnUpstair()

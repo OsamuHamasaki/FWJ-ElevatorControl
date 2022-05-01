@@ -40,7 +40,7 @@ public:
     Request() {}
     virtual ~Request() {}
 
-    virtual void exec(Lift* lift) = 0;
+    virtual void exec() = 0;
     virtual bool isNoRequest() { return false; }
 };
 
@@ -50,7 +50,7 @@ public:
     NoRequest() {}
     virtual ~NoRequest() {}
 
-    void exec(Lift* lift) {}
+    void exec() {}
     bool isNoRequest() { return true; }
 
 };
@@ -64,7 +64,7 @@ public:
     UpstairRequest(Lift* lift) : lift(lift) {}
     virtual ~UpstairRequest() {}
 
-    void exec(Lift* lift) { lift->goUp(); }
+    void exec() { lift->goUp(); }
 };
 
 class DownstairRequest : public Request
@@ -76,7 +76,7 @@ public:
     DownstairRequest(Lift* lift) : lift(lift) {}
     virtual ~DownstairRequest() {}
 
-    void exec(Lift* lift) { lift->goDown(); }
+    void exec() { lift->goDown(); }
 };
 
 class Cage : public DoorEventListener, public LiftEventListener
