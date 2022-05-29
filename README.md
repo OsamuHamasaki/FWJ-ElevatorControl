@@ -1,2 +1,2 @@
 # FWJ-ElevatorControl
-Exercise for OOD/OOP by elevator control 
+Object Oriented Programing exercise for Beginners : Elevator control 
