@@ -5,6 +5,8 @@
 #ifndef __DOOR_HPP__
 #define __DOOR_HPP__
 
+#include "Lift.hpp"
+
 class DoorEventListener
 {
 public:
@@ -15,7 +17,7 @@ public:
     virtual void notifyDoorClosed() {};
 };
 
-class Door
+class Door : public LiftEventListener
 {
 private:
     DoorEventListener* listener;
@@ -30,12 +32,16 @@ private:
 
     static const int waitClosingCount = 300;
 
+    void open();
+
 public:
     Door(DoorEventListener* listener) : listener(listener), state(closed), count(0) {}
     ~Door() {}
 
-    void open();
     void tick();
+
+    virtual void notifyLiftOnUpstair() { open(); }
+    virtual void notifyLiftOnDownstair() { open(); }
 };
 
 #endif

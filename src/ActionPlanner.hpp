@@ -1,38 +1,12 @@
 //
-// Cage.hpp
+// ActionPlanner.hpp
 //
 
-#ifndef __CAGE_HPP__
-#define __CAGE_HPP__
+#ifndef __ACTIONPLANNER_HPP__
+#define __ACTIONPLANNER_HPP__
 
 #include "Door.hpp"
 #include "Lift.hpp"
-
-class CageEventListener
-{
-public:
-    CageEventListener() {}
-    virtual ~CageEventListener() {}
-
-    virtual void notifyOnUpstair() {};
-    virtual void notifyOnDownstair() {};
-};
-
-class CageEventNotifier
-{
-private:
-    int numOfListeners;
-    CageEventListener* listeners[4];
-    
-public:
-    CageEventNotifier();
-    ~CageEventNotifier() {}
-
-    void addEventListener(CageEventListener* listener);
-
-    void notifyOnUpstair();
-    void notifyOnDownstair();
-};
 
 class Request
 {
@@ -79,13 +53,9 @@ public:
     void exec() { lift->goDown(); }
 };
 
-class Cage : public DoorEventListener, public LiftEventListener
+class ActionPlanner : public DoorEventListener
 {
 private:
-    Door door;
-    Lift lift;
-    CageEventNotifier notifier;
-
     NoRequest noRequest;
     UpstairRequest upstairRequest;
     DownstairRequest downstairRequest;
@@ -96,13 +66,11 @@ private:
     void requested(Request* request);
 
 public:
-    Cage()
-        : door(this), lift(this), notifier(),
-          noRequest(), upstairRequest(&lift), downstairRequest(&lift),
+    ActionPlanner(Lift* lift)
+        : noRequest(), upstairRequest(lift), downstairRequest(lift),
           currentRequest(&noRequest), nextRequest(&noRequest) {}
-    ~Cage() {}
+    ~ActionPlanner() {}
 
-    void addEventListener(CageEventListener* listener);
 
     void notifyUpstairCallButtonPressed();
     void notifyUpstairRequestButtonPressed();
@@ -110,11 +78,6 @@ public:
     void notifyDownstairRequestButtonPressed();
     
     void notifyDoorClosed();
-
-    void notifyLiftOnUpstair();
-    void notifyLiftOnDownstair();
-
-    void tick();
 };
 
 #endif

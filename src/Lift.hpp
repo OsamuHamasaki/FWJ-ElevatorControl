@@ -11,14 +11,31 @@ public:
     LiftEventListener() {}
     virtual ~LiftEventListener() {}
 
-    virtual void notifyLiftOnUpstair() {};
-    virtual void notifyLiftOnDownstair() {};
+    virtual void notifyLiftOnUpstair() {}
+    virtual void notifyLiftOnDownstair() {}
+};
+
+class LiftEventNotifier
+{
+private:
+    int numOfListeners;
+    LiftEventListener* listeners[5];
+    
+public:
+    LiftEventNotifier();
+    ~LiftEventNotifier() {}
+
+    void addEventListener(LiftEventListener* listener);
+
+    void notifyOnUpstair();
+    void notifyOnDownstair();
 };
 
 class Lift
 {
 private:
-    LiftEventListener* listener;
+    LiftEventNotifier notifier;
+
     enum
     {
         onDownstair,
@@ -28,9 +45,11 @@ private:
     } state;
 
 public:
-    Lift(LiftEventListener* listener) : listener(listener), state(onDownstair) {}
+    Lift() : notifier(), state(onDownstair) {}
     ~Lift() {}
 
+    void addEventListener(LiftEventListener* listener);
+    
     void goUp();
     void goDown();
     void tick();

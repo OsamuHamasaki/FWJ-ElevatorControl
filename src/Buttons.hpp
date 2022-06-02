@@ -6,67 +6,67 @@
 #define __BUTTONS_HPP__
 
 #include "Button.hpp"
-#include "Cage.hpp"
+#include "ActionPlanner.hpp"
 #include "IO.hpp"
 
-class UpstairCallButton : public Button, public CageEventListener
+class UpstairCallButton : public Button, public LiftEventListener
 {
 private:
-    Cage* cage;
+    ActionPlanner* actionPlanner;
 
     bool isOn() { return IO_isUpstairCallButtonPressed(); }
-    void onPressed() { IO_upstairCallButtonLampOn(); cage->notifyUpstairCallButtonPressed(); }
+    void onPressed() { IO_upstairCallButtonLampOn(); actionPlanner->notifyUpstairCallButtonPressed(); }
 
 public:
-    UpstairCallButton(Cage* cage) : cage(cage) {}
+    UpstairCallButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
     virtual ~UpstairCallButton() {}
 
-    void notifyOnUpstair() { IO_upstairCallButtonLampOff(); }
+    void notifyLiftOnUpstair() { IO_upstairCallButtonLampOff(); }
 };
 
-class UpstairRequestButton : public Button, public CageEventListener
+class UpstairRequestButton : public Button, public LiftEventListener
 {
 private:
-    Cage* cage;
+    ActionPlanner* actionPlanner;
 
     bool isOn() { return IO_isUpstairRequestButtonPressed(); }
-    void onPressed() { IO_upstairRequestButtonLampOn(); cage->notifyUpstairRequestButtonPressed(); }
+    void onPressed() { IO_upstairRequestButtonLampOn(); actionPlanner->notifyUpstairRequestButtonPressed(); }
 
 public:
-    UpstairRequestButton(Cage* cage) : cage(cage) {}
+    UpstairRequestButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
     virtual ~UpstairRequestButton() {}
 
-    void notifyOnUpstair() { IO_upstairRequestButtonLampOff(); }
+    void notifyLiftOnUpstair() { IO_upstairRequestButtonLampOff(); }
 };
 
-class DownstairCallButton : public Button, public CageEventListener
+class DownstairCallButton : public Button, public LiftEventListener
 {
 private:
-    Cage* cage;
+    ActionPlanner* actionPlanner;
 
     bool isOn() { return IO_isDownstairCallButtonPressed(); }
-    void onPressed() {  IO_downstairCallButtonLampOn(); cage->notifyDownstairCallButtonPressed(); }
+    void onPressed() {  IO_downstairCallButtonLampOn(); actionPlanner->notifyDownstairCallButtonPressed(); }
 
 public:
-    DownstairCallButton(Cage* cage) : cage(cage) {}
+    DownstairCallButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
     virtual ~DownstairCallButton() {}
 
-    void notifyOnDownstair() { IO_downstairCallButtonLampOff(); }
+    void notifyLiftOnDownstair() { IO_downstairCallButtonLampOff(); }
 };
 
-class DownstairRequestButton : public Button, public CageEventListener
+class DownstairRequestButton : public Button, public LiftEventListener
 {
 private:
-    Cage* cage;
+    ActionPlanner* actionPlanner;
 
     bool isOn() { return IO_isDownstairRequestButtonPressed(); }
-    void onPressed() {  IO_downstairRequestButtonLampOn(); cage->notifyDownstairRequestButtonPressed(); }
+    void onPressed() {  IO_downstairRequestButtonLampOn(); actionPlanner->notifyDownstairRequestButtonPressed(); }
 
 public:
-    DownstairRequestButton(Cage* cage) : cage(cage) {}
+    DownstairRequestButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
     virtual ~DownstairRequestButton() {}
 
-    void notifyOnDownstair() { IO_downstairRequestButtonLampOff(); }
+    void notifyLiftOnDownstair() { IO_downstairRequestButtonLampOff(); }
 };
 
 

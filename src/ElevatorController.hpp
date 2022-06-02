@@ -6,7 +6,9 @@
 #define __ELEVATOR_CONTROLLER_HPP__
 
 #include "Buttons.hpp"
-#include "Cage.hpp"
+#include "Lift.hpp"
+#include "Door.hpp"
+#include "ActionPlanner.hpp"
 
 class ElevatorController
 {
@@ -16,17 +18,22 @@ private:
     DownstairCallButton downstairCallButton;
     DownstairRequestButton downstairRequestButton;
 
-    Cage cage;
+    Door door;
+    Lift lift;
+
+    ActionPlanner actionPlanner;
 
 public:
     ElevatorController()
-        : upstairCallButton(&cage), upstairRequestButton(&cage), downstairCallButton(&cage), downstairRequestButton(&cage),
-          cage()
+        : upstairCallButton(&actionPlanner), upstairRequestButton(&actionPlanner),
+          downstairCallButton(&actionPlanner), downstairRequestButton(&actionPlanner),
+          door(&actionPlanner), lift(), actionPlanner(&lift)
         { 
-            cage.addEventListener(&upstairCallButton);
-            cage.addEventListener(&upstairRequestButton);
-            cage.addEventListener(&downstairCallButton);
-            cage.addEventListener(&downstairRequestButton);
+            lift.addEventListener(&upstairCallButton);
+            lift.addEventListener(&upstairRequestButton);
+            lift.addEventListener(&downstairCallButton);
+            lift.addEventListener(&downstairRequestButton);
+            lift.addEventListener(&door);
         }
     ~ElevatorController() {}
 
