@@ -7,53 +7,29 @@
 
 void Door::open()
 {
-    switch (state)
+    if (isOpened)
     {
-    case closing:
-        IO_doorMotorOff();
-    case closed:
-        IO_doorMotorForwardOn();
-        state = opening;
-        break;
-    case opened:
         count = waitClosingCount;
-        break;
-    default:
-        break;
+    }
+    else
+    {
+        motor.goForward();
+        isOpened = false;
     }
 }
 
 void Door::tick()
 {
-    switch(state)
+    if (isOpened)
     {
-    case closing:
-        if (IO_isDoorClose())
-        {
-            IO_doorMotorOff();
-            listener->notifyDoorClosed();
-            state = closed;
-        }
-        break;
-    case opening:
-        if (IO_isDoorOpen())
-        {
-            IO_doorMotorOff();
-            listener->notifyDoorOpened();
-            count = waitClosingCount;
-            state = opened;
-        }
-        break;
-    case opened:
         count--;
         if (count == 0)
         {
-            IO_doorMotorReverseOn();
-            state = closing;
+            motor.goBackward();
+            isOpened = false;
         }
-        break;
-    default:
-        break;
     }
+
+    motor.tick();
 }
 

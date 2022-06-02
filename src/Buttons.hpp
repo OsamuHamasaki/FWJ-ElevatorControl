@@ -18,7 +18,7 @@ private:
     void onPressed() { IO_upstairCallButtonLampOn(); actionPlanner->notifyUpstairCallButtonPressed(); }
 
 public:
-    UpstairCallButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
+    UpstairCallButton(ActionPlanner* actionPlanner) : Button(), LiftEventListener(), actionPlanner(actionPlanner) {}
     virtual ~UpstairCallButton() {}
 
     void notifyLiftOnUpstair() { IO_upstairCallButtonLampOff(); }
@@ -33,7 +33,7 @@ private:
     void onPressed() { IO_upstairRequestButtonLampOn(); actionPlanner->notifyUpstairRequestButtonPressed(); }
 
 public:
-    UpstairRequestButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
+    UpstairRequestButton(ActionPlanner* actionPlanner) : Button(), LiftEventListener(), actionPlanner(actionPlanner) {}
     virtual ~UpstairRequestButton() {}
 
     void notifyLiftOnUpstair() { IO_upstairRequestButtonLampOff(); }
@@ -48,7 +48,7 @@ private:
     void onPressed() {  IO_downstairCallButtonLampOn(); actionPlanner->notifyDownstairCallButtonPressed(); }
 
 public:
-    DownstairCallButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
+    DownstairCallButton(ActionPlanner* actionPlanner) : Button(), LiftEventListener(), actionPlanner(actionPlanner) {}
     virtual ~DownstairCallButton() {}
 
     void notifyLiftOnDownstair() { IO_downstairCallButtonLampOff(); }
@@ -63,7 +63,7 @@ private:
     void onPressed() {  IO_downstairRequestButtonLampOn(); actionPlanner->notifyDownstairRequestButtonPressed(); }
 
 public:
-    DownstairRequestButton(ActionPlanner* actionPlanner) : actionPlanner(actionPlanner) {}
+    DownstairRequestButton(ActionPlanner* actionPlanner) : Button(), LiftEventListener(), actionPlanner(actionPlanner) {}
     virtual ~DownstairRequestButton() {}
 
     void notifyLiftOnDownstair() { IO_downstairRequestButtonLampOff(); }
