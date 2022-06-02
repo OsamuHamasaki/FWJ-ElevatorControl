@@ -37,7 +37,17 @@ public:
         }
     ~ElevatorController() {}
 
-    void tick();
+    void tick()
+    {
+        upstairCallButton.tick();
+        upstairRequestButton.tick();
+        downstairCallButton.tick();
+        downstairRequestButton.tick();
+
+        door.tick();
+        lift.tick();
+    }
+
 };
 
 #endif

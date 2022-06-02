@@ -72,10 +72,10 @@ public:
     ~ActionPlanner() {}
 
 
-    void notifyUpstairCallButtonPressed();
-    void notifyUpstairRequestButtonPressed();
-    void notifyDownstairCallButtonPressed();
-    void notifyDownstairRequestButtonPressed();
+    void notifyUpstairCallButtonPressed() { requested(&upstairRequest); }
+    void notifyUpstairRequestButtonPressed() { requested(&upstairRequest); }
+    void notifyDownstairCallButtonPressed() { requested(&downstairRequest); }
+    void notifyDownstairRequestButtonPressed() { requested(&downstairRequest); }
     
     void notifyDoorClosed();
 };
