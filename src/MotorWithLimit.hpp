@@ -56,7 +56,6 @@ private:
 
         State* goForward();
         State* goBackward();
-        State* tick() { return this; }
     } onForwardLimitState;
 
     class OnBackwardLimitState : public State
@@ -70,7 +69,6 @@ private:
 
         State* goForward();
         State* goBackward();
-        State* tick() { return this; }
     } onBackwardLimitState;
 
     class GoingForwardState : public State
@@ -82,7 +80,6 @@ private:
         GoingForwardState(MotorWithLimit* context) : context(context) {}
         virtual ~GoingForwardState() {}
 
-        State* goForward() { return this; }
         State* goBackward();
         State* tick();
     } goingForwardState;
@@ -97,7 +94,6 @@ private:
         virtual ~GoingBackwardState() {}
 
         State* goForward();
-        State* goBackward() { return this; }
         State* tick();
     } goingBackwardState;
 
