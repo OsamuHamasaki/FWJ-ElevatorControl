@@ -21,8 +21,10 @@ public:
 class LiftEventNotifier
 {
 private:
+    static const int maxNumOfListeners = 5;
+
     int numOfListeners;
-    LiftEventListener* listeners[5];
+    LiftEventListener* listeners[maxNumOfListeners];
     
 public:
     LiftEventNotifier();

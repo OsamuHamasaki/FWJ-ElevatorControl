@@ -35,16 +35,76 @@ private:
     MotorEventListener* listener;
     MotorWithLimitIO* io;
 
-    enum
+    class State {
+    public:
+        State() {}
+        virtual ~State() {}
+
+        virtual State* goForward() { return this; }
+        virtual State* goBackward() { return this; }
+        virtual State* tick() { return this; }
+    };
+
+    class OnForwardLimitState : public State
     {
-        onForwardLimit,
-        onBackwardLimit,
-        goingForward,
-        goingBackward
-    } state;
+    private:
+        MotorWithLimit* context;
+
+    public:
+        OnForwardLimitState(MotorWithLimit* context) : context(context) {}
+        virtual ~OnForwardLimitState() {}
+
+        State* goForward();
+        State* goBackward();
+        State* tick() { return this; }
+    } onForwardLimitState;
+
+    class OnBackwardLimitState : public State
+    {
+    private:
+        MotorWithLimit* context;
+
+    public:
+        OnBackwardLimitState(MotorWithLimit* context) : context(context) {}
+        virtual ~OnBackwardLimitState() {}
+
+        State* goForward();
+        State* goBackward();
+        State* tick() { return this; }
+    } onBackwardLimitState;
+
+    class GoingForwardState : public State
+    {
+    private:
+        MotorWithLimit* context;
+
+    public:
+        GoingForwardState(MotorWithLimit* context) : context(context) {}
+        virtual ~GoingForwardState() {}
+
+        State* goForward() { return this; }
+        State* goBackward();
+        State* tick();
+    } goingForwardState;
+
+    class GoingBackwardState : public State
+    {
+    private:
+        MotorWithLimit* context;
+
+    public:
+        GoingBackwardState(MotorWithLimit* context) : context(context) {}
+        virtual ~GoingBackwardState() {}
+
+        State* goForward();
+        State* goBackward() { return this; }
+        State* tick();
+    } goingBackwardState;
+
+    State* state;
 
 public:
-    MotorWithLimit(MotorEventListener* listener, MotorWithLimitIO* io) : listener(listener), io(io), state(onBackwardLimit) {}
+    MotorWithLimit(MotorEventListener* listener, MotorWithLimitIO* io) : listener(listener), io(io), onForwardLimitState(this), onBackwardLimitState(this), goingForwardState(this), goingBackwardState(this), state(&onBackwardLimitState) {}
     ~MotorWithLimit() {}
 
     
